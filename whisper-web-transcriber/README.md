@@ -63,7 +63,7 @@ cd utility/whisper-web-transcriber
 install.bat
 
 # 3. 啟動應用
-啟動.bat
+start.bat
 ```
 
 #### macOS/Linux 使用者
@@ -321,7 +321,7 @@ whisper-web-transcriber/
 ├── set_permissions.sh     # 權限設定腳本
 ├── scripts/               # 輔助腳本
 │   ├── install.bat        # Windows 安裝腳本
-│   ├── 啟動.bat           # Windows 啟動腳本
+│   ├── start.bat           # Windows 啟動腳本
 │   ├── install.sh         # Unix 安裝腳本
 │   └── start.sh           # Unix 啟動腳本
 └── venv/                  # 虛擬環境
