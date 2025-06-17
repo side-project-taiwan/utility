@@ -3,7 +3,8 @@
 <div align="center">
 
 ![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
-![Streamlit](https://img.shields.io/badge/streamlit-v1.28+-red.svg)
+![Streamlit](https://img.shields.io/badge/streamlit-v1.28.2-red.svg)
+![Whisper](https://img.shields.io/badge/whisper-OpenAI-green.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)
 
@@ -29,22 +30,24 @@
 
 ## ✨ 功能特色
 
-- 🌐 **網頁介面** - 現代化的瀏覽器應用，無需複雜安裝
+- 🌐 **網頁介面** - 現代化的瀏覽器介面，無需複雜安裝
 - 🤖 **AI 驅動** - 使用 OpenAI Whisper 模型，準確度高
 - 🎯 **多語言支援** - 支援中文、英文、日文、韓文等多種語言
-- 📁 **多格式支援** - 支援音頻和視頻檔案轉換
+- 📁 **多格式支援** - 支援音檔和影片檔案轉換
 - ⚡ **智慧處理** - 大檔案自動切割，提升處理效率
 - ⏰ **時間戳記** - 可選擇包含精確的時間戳記
 - 📊 **即時進度** - 處理狀態和預估時間顯示
 - 💾 **一鍵下載** - 轉換完成後立即下載結果
 - 🎛️ **彈性設定** - 多種 AI 模型可選，平衡速度與準確度
+- 📈 **處理統計** - 顯示字數、字元數和處理時間
 
 ## 💻 系統需求
 
 - **Python**: 3.8 或更高版本
 - **記憶體**: 至少 4GB RAM（推薦 8GB）
-- **磁碟空間**: 至少 5GB 可用空間
+- **磁碟空間**: 至少 5GB 可用空間（用於 AI 模型）
 - **網路**: 首次使用需下載 AI 模型
+- **依賴套件**: 自動安裝（見 requirements.txt）
 
 ## 🚀 快速開始
 
@@ -53,8 +56,8 @@
 #### Windows 使用者
 ```bash
 # 1. 下載專案
-git clone https://github.com/你的用戶名/whisper-web-transcriber.git
-cd whisper-web-transcriber
+git clone https://github.com/side-project-taiwan/utility.git
+cd utility/whisper-web-transcriber
 
 # 2. 執行安裝
 install.bat
@@ -66,7 +69,7 @@ install.bat
 #### macOS/Linux 使用者
 ```bash
 # 1. 下載專案
-git clone https://github.com/你的用戶名/whisper-web-transcriber.git
+git clone https://github.com/side-project-taiwan/utility.git
 cd whisper-web-transcriber
 
 # 2. 執行安裝
@@ -86,16 +89,6 @@ pip install -r requirements.txt
 streamlit run whisper_app.py
 ```
 
-### 方法三：Docker 部署
-
-```bash
-# 1. 構建映像檔
-docker build -t whisper-transcriber .
-
-# 2. 執行容器
-docker run -p 8501:8501 whisper-transcriber
-```
-
 安裝完成後，瀏覽器會自動開啟 `http://localhost:8501`
 
 ## 📱 使用方法
@@ -104,11 +97,11 @@ docker run -p 8501:8501 whisper-transcriber
 
 1. **選擇檔案**
    - 點擊上傳區域或拖拉檔案
-   - 支援音頻和視頻格式
+   - 支援音檔和影片格式
 
 2. **設定選項**
    - 選擇 AI 模型大小
-   - 選擇音頻語言
+   - 選擇音檔語言
    - 決定是否包含時間戳記
 
 3. **開始轉換**
@@ -123,7 +116,7 @@ docker run -p 8501:8501 whisper-transcriber
 
 | 區域 | 功能 |
 |------|------|
-| 📁 檔案上傳區 | 選擇要轉換的音頻/視頻檔案 |
+| 📁 檔案上傳區 | 選擇要轉換的音檔/影片檔案 |
 | ⚙️ 設定面板 | 選擇模型、語言和輸出選項 |
 | 📊 狀態顯示 | 顯示處理進度和預估時間 |
 | 📝 結果區域 | 查看和下載轉換結果 |
@@ -131,18 +124,18 @@ docker run -p 8501:8501 whisper-transcriber
 
 ## 🎯 支援格式
 
-### 音頻格式
-- **MP3** - 最常見的音頻格式
-- **WAV** - 無損音頻格式
-- **M4A** - Apple 音頻格式
+### 音檔格式
+- **MP3** - 最常見的音檔格式
+- **WAV** - 無損音檔格式
+- **M4A** - Apple 音檔格式
 - **FLAC** - 無損壓縮格式
 
-### 視頻格式
-- **MP4** - 最常見的視頻格式
-- **AVI** - 傳統視頻格式
-- **MOV** - Apple 視頻格式
-- **MKV** - 開源視頻容器
-- **WebM** - 網頁視頻格式
+### 影片格式
+- **MP4** - 最常見的影片格式
+- **AVI** - 傳統影片格式
+- **MOV** - Apple 影片格式
+- **MKV** - 開源影片容器
+- **WebM** - 網頁影片格式
 
 ## 🛠️ 模型說明
 
@@ -175,14 +168,12 @@ export CUDA_VISIBLE_DEVICES=0
 
 ### 自訂設定檔
 
-建立 `config.yaml` 檔案：
+建立 `config.yaml` 檔案（選用功能）：
 
 ```yaml
 # 預設設定
 default_model: "base"
 default_language: "auto"
-auto_split_threshold: 100  # MB
-chunk_duration: 5  # 分鐘
 max_file_size: 1000  # MB
 
 # 介面設定
@@ -194,11 +185,15 @@ show_advanced_options: true
 
 ```python
 # 使用 Python 腳本進行批次處理
-from whisper_app import process_audio_file
+import whisper
 
+model = whisper.load_model("base")
 files = ["audio1.mp3", "audio2.wav", "audio3.m4a"]
+
 for file in files:
-    result = process_audio_file(file, model_size="base")
+    result = model.transcribe(file)
+    with open(f"{file}_transcript.txt", "w", encoding="utf-8") as f:
+        f.write(result["text"])
     print(f"處理 {file} 完成")
 ```
 
@@ -213,12 +208,12 @@ for file in files:
 
 ```bash
 # Windows（以管理員身分執行）
-pip install --user openai-whisper streamlit
+pip install --user -r requirements.txt
 
 # macOS/Linux
-sudo pip install openai-whisper streamlit
+sudo pip install -r requirements.txt
 # 或
-pip install --user openai-whisper streamlit
+pip install --user -r requirements.txt
 ```
 </details>
 
@@ -253,7 +248,7 @@ export HTTPS_PROXY=https://your-proxy:port
 
 **A:**
 - 使用較大的模型（Medium 或 Large）
-- 確保音頻品質良好
+- 確保音檔品質良好
 - 選擇正確的語言設定
 - 減少背景噪音
 - 確保說話清晰
@@ -266,7 +261,7 @@ export HTTPS_PROXY=https://your-proxy:port
 - 選擇較小的模型（Tiny 或 Base）
 - 開啟自動切割功能
 - 使用 GPU 加速（需要 CUDA）
-- 處理較短的音頻片段
+- 處理較短的音檔片段
 </details>
 
 ### 錯誤代碼對照
@@ -295,9 +290,9 @@ transcribe_options = {
 ### 本地開發環境設定
 
 ```bash
-# 1. 克隆專案
-git clone https://github.com/你的用戶名/whisper-web-transcriber.git
-cd whisper-web-transcriber
+# 1. clone專案
+git clone https://github.com/side-project-taiwan/utility.git
+cd utility/whisper-web-transcriber
 
 # 2. 建立虛擬環境
 python -m venv venv
@@ -305,11 +300,11 @@ source venv/bin/activate  # Linux/macOS
 # 或
 venv\Scripts\activate     # Windows
 
-# 3. 安裝開發依賴
-pip install -r requirements-dev.txt
+# 3. 安裝依賴
+pip install -r requirements.txt
 
-# 4. 執行測試
-pytest tests/
+# 4. 執行應用
+streamlit run whisper_app.py
 
 # 5. 啟動開發服務器
 streamlit run whisper_app.py --server.runOnSave true
@@ -320,47 +315,16 @@ streamlit run whisper_app.py --server.runOnSave true
 ```
 whisper-web-transcriber/
 ├── whisper_app.py          # 主應用程式
-├── requirements.txt        # 生產環境依賴
-├── requirements-dev.txt    # 開發環境依賴
-├── Dockerfile             # Docker 配置
-├── docker-compose.yml     # Docker Compose 配置
-├── config.yaml            # 設定檔案
+├── requirements.txt        # 環境依賴
+├── LICENSE                # 授權條款
+├── README.md              # 專案說明
+├── set_permissions.sh     # 權限設定腳本
 ├── scripts/               # 輔助腳本
 │   ├── install.bat        # Windows 安裝腳本
 │   ├── 啟動.bat           # Windows 啟動腳本
 │   ├── install.sh         # Unix 安裝腳本
 │   └── start.sh           # Unix 啟動腳本
-├── tests/                 # 測試檔案
-│   ├── test_app.py
-│   └── test_utils.py
-├── docs/                  # 文件
-│   ├── API.md
-│   └── DEPLOYMENT.md
-└── assets/                # 靜態資源
-    ├── screenshots/
-    └── demo.gif
-```
-
-### API 文件
-
-應用程式提供 REST API 接口：
-
-```python
-# POST /api/transcribe
-{
-    "audio_file": "base64_encoded_audio",
-    "model_size": "base",
-    "language": "auto",
-    "include_timestamps": false
-}
-
-# Response
-{
-    "success": true,
-    "text": "轉換結果文字",
-    "processing_time": 15.2,
-    "word_count": 156
-}
+└── venv/                  # 虛擬環境
 ```
 
 ### 程式碼風格
@@ -386,7 +350,7 @@ mypy whisper_app.py
 ### 貢獻方式
 
 1. **回報問題**
-   - 使用 [Issues](https://github.com/你的用戶名/whisper-web-transcriber/issues) 回報 Bug
+   - 使用 [Issues](https://github.com/side-project-taiwan/utility/issues) 回報 Bug
    - 提供詳細的錯誤資訊和重現步驟
 
 2. **功能建議**
@@ -400,45 +364,20 @@ mypy whisper_app.py
    - 推送分支：`git push origin feature/amazing-feature`
    - 建立 Pull Request
 
-### 開發規範
-
-- 所有功能都需要包含測試
-- 遵循既有的程式碼風格
-- 更新相關文件
-- 確保 CI/CD 流程通過
-
 ### 貢獻者
 
 感謝所有為本專案做出貢獻的開發者：
 
-<a href="https://github.com/你的用戶名/whisper-web-transcriber/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=你的用戶名/whisper-web-transcriber" />
+<a href="https://github.com/side-project-taiwan/utility/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=side-project-taiwan/utility" />
 </a>
 
 ## 📊 專案統計
 
-![GitHub stars](https://img.shields.io/github/stars/你的用戶名/whisper-web-transcriber.svg?style=social)
-![GitHub forks](https://img.shields.io/github/forks/你的用戶名/whisper-web-transcriber.svg?style=social)
-![GitHub issues](https://img.shields.io/github/issues/你的用戶名/whisper-web-transcriber.svg)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/你的用戶名/whisper-web-transcriber.svg)
-
-## 🚀 部署選項
-
-### Heroku 部署
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/你的用戶名/whisper-web-transcriber)
-
-### Streamlit Cloud 部署
-
-1. Fork 本專案到你的 GitHub
-2. 前往 [Streamlit Cloud](https://streamlit.io/cloud)
-3. 連接 GitHub 帳號並選擇本專案
-4. 設定主檔案為 `whisper_app.py`
-5. 點擊部署
-
-### 自主託管
-
-詳細部署指南請參考 [DEPLOYMENT.md](docs/DEPLOYMENT.md)
+![GitHub stars](https://img.shields.io/github/stars/side-project-taiwan/utility.svg?style=social)
+![GitHub forks](https://img.shields.io/github/forks/side-project-taiwan/utility.svg?style=social)
+![GitHub issues](https://img.shields.io/github/issues/side-project-taiwan/utility.svg)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/side-project-taiwan/utility.svg)
 
 ## 📄 授權條款
 
@@ -448,13 +387,13 @@ mypy whisper_app.py
 
 - [OpenAI Whisper](https://github.com/openai/whisper) - 強大的語音識別模型
 - [Streamlit](https://streamlit.io/) - 優秀的 Python 網頁應用框架
-- [PyDub](https://github.com/jiaaro/pydub) - 音頻處理函式庫
+- [PyDub](https://github.com/jiaaro/pydub) - 音檔處理函式庫
 
 ## 📞 聯絡方式
 
-- 專案維護者：[你的名字](mailto:your.email@example.com)
-- 專案首頁：[https://github.com/你的用戶名/whisper-web-transcriber](https://github.com/你的用戶名/whisper-web-transcriber)
-- 問題回報：[Issues](https://github.com/你的用戶名/whisper-web-transcriber/issues)
+- 專案維護者：vincentxuu
+- 專案首頁：[https://github.com/side-project-taiwan/utility](https://github.com/side-project-taiwan/utility)
+- 問題回報：[Issues](https://github.com/side-project-taiwan/utility/issues)
 
 ---
 
@@ -463,5 +402,7 @@ mypy whisper_app.py
 如果這個專案對你有幫助，請考慮給我們一個 ⭐
 
 **[回到頂部](#-whisper-語音轉文字工具)**
+
+**專案路徑：** `whisper-web-transcriber/` （位於 [side-project-taiwan/utility](https://github.com/side-project-taiwan/utility) repo 中）
 
 </div>
